@@ -18,7 +18,7 @@ In this report, we will demonstrate the utility of using principle component ana
 
 # Introduction
 
-[Explain Principle Component Analysis]
+Principle Component Analysis (PCA) is a technique that transforms a dataset with possibly correlated variables into a new set of uncorrelated variables called principal components. The principal components are linear combinations of the original variables and are ordered by the amount of variance they explain. The first principal component explains the greatest variance in the data, the second the next greatest, and so on. PCA seeks to reduce the dimensionality of the data by preserving as much variability as possible in fewer dimensions. PCA begins by centering the data, given a data $n \times p$ matrix $X$, where $n$ is the number of observations and $p$ is the number of features, we subtract the mean of each column to form a centered matrix. Then we compute the sample covariance matrix as $\frac{1}{(n-1)} X^T  X$. Performing an eigen-decomposition of this covariance matrix yields a set of eigenvectors and eigenvalues. The eigenvectors (principal components) indicate the new basis, and the eigenvalues represent the amount of variance along each component. The data can be projected onto the first $k$ principal components to obtain a reduced representation.
 
 # Examples
 
@@ -49,7 +49,11 @@ ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) +
 ```
 
 ```{r}
-votes_approx <- 
+votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+outcomes <- colSums(votes_approx)
+for (i in 1:length(outcomes)) {
+  if (outcomes[i] < 0)
+}
 ```
 
 # Bibliography
