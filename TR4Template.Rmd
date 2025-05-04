@@ -7,7 +7,7 @@ output:
   pdf_document: default
 ---
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE}
 library(tidyverse)
 library(ggplot2)
 ```
@@ -158,7 +158,7 @@ votes <- as.matrix(read.csv("combined_votes.csv"))[,2:132]
 
 ```
 out <- svd(votes)
-sc_loadings <- out$v
+sc_loadings <- t(out$v)
 sc_sdev <- out$d
 sc_scores <- out$u %*% diag(out$d)
 ```
@@ -174,7 +174,7 @@ senator_parties <- as.matrix(singleCase)[,6]
 ## Tendencies
 
 ```
-votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+votes_approx <- sc_scores[,1:2]%*%sc_loadings[1:2,]
 tendencies <- rowSums(votes_approx)
 senator_tendencies <- tendencies
 for (i in 1:length(tendencies)) {
@@ -189,5 +189,6 @@ for (i in 1:length(tendencies)) {
 ## Dataframe for Plot
 
 ```
-votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names,
+  party = senator_parties, tendency = senator_tendencies)
 ```
