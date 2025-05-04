@@ -47,10 +47,23 @@ sc_sdev <- out$d
 sc_scores <- out$u %*% diag(out$d)
 ```
 
+```{r}
+votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+tendencies <- rowSums(votes_approx)
+senator_tendencies <- tendencies
+for (i in 1:length(tendencies)) {
+  if (tendencies[i] < 0) {
+    senator_tendencies[i] <- "Negative"
+  } else {
+    senator_tendencies[i] <- "Positive"
+  }
+}
+```
+
 ```{r plots}
-votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties)
-ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) + 
-  geom_point() +
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
+ggplot(data=votesFrame, aes(x=x, y=y, col=party, group=tendency)) + 
+  geom_point(aes(shape=tendency)) +
   labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
   theme_minimal() +
   scale_color_manual(values=c("Blue", "Red"))
