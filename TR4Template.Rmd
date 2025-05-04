@@ -29,8 +29,7 @@ senator_parties <- as.matrix(singleCase)[,6]
 ```
 
 ```{r}
-votes <- as.matrix(read.csv("combined_votes.csv"))[c(1:91,93:101),2:132]
-# note: I left out the senator lacking data because my source for names doesn't have theirs
+votes <- as.matrix(read.csv("combined_votes.csv"))[,2:132]
 ```
 
 ```{r}
