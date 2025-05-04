@@ -1,0 +1,101 @@
+person,state,district,vote,name,party
+300018,WA,,Nay,"Sen. Maria Cantwell [D, 2001-2030]",Democrat
+300025,ME,,Yea,"Sen. Susan Collins [R, 1997-2026]",Republican
+300027,TX,,Yea,"Sen. John Cornyn [R, 2002-2026]",Republican
+300030,ID,,Yea,"Sen. Michael “Mike” Crapo [R, 1999-2028]",Republican
+300038,IL,,Nay,"Sen. Richard Durbin [D, 1997-2026]",Democrat
+300047,SC,,Yea,"Sen. Lindsey Graham [R, 2003-2026]",Republican
+300048,IA,,Yea,"Sen. Charles “Chuck” Grassley [R, 1981-2028]",Republican
+300072,KY,,Yea,"Sen. Mitch McConnell [R, 1985-2026]",Republican
+300075,AK,,Yea,"Sen. Lisa Murkowski [R, 2003-2028]",Republican
+300076,WA,,Nay,"Sen. Patty Murray [D, 1993-2028]",Democrat
+300081,RI,,Nay,"Sen. John F. “Jack” Reed [D, 1997-2026]",Democrat
+300087,NY,,Nay,"Sen. Charles “Chuck” Schumer [D, 1999-2028]",Democrat
+300100,OR,,Nay,"Sen. Ron Wyden [D, 1996-2028]",Democrat
+400013,WI,,Nay,"Sen. Tammy Baldwin [D, 2013-2030]",Democrat
+400032,TN,,Yea,"Sen. Marsha Blackburn [R, 2019-2030]",Republican
+400040,AR,,Yea,"Sen. John Boozman [R, 2011-2028]",Republican
+400061,WV,,Yea,"Sen. Shelley Moore Capito [R, 2015-2026]",Republican
+400253,MA,,Nay,"Sen. Edward “Ed” Markey [D, 2013-2026]",Democrat
+400284,KS,,Yea,"Sen. Jerry Moran [R, 2011-2028]",Republican
+400357,VT,,Nay,"Sen. Bernard “Bernie” Sanders [I, 2007-2030]",Democrat
+400361,CA,,Nay,"Sen. Adam Schiff [D, 2024-2030]",Democrat
+400415,MD,,Nay,"Sen. Chris Van Hollen [D, 2017-2028]",Democrat
+400432,MS,,Yea,"Sen. Roger Wicker [R, 2007-2030]",Republican
+400546,SD,,Yea,"Sen. John Thune [R, 2005-2028]",Republican
+412194,CT,,Nay,"Sen. Christopher Murphy [D, 2013-2030]",Democrat
+412200,HI,,Nay,"Sen. Mazie Hirono [D, 2013-2030]",Democrat
+412223,NY,,Nay,"Sen. Kirsten Gillibrand [D, 2009-2030]",Democrat
+412239,VT,,Nay,"Sen. Peter Welch [D, 2023-2028]",Democrat
+412242,MN,,Nay,"Sen. Amy Klobuchar [D, 2007-2030]",Democrat
+412247,RI,,Not Voting,"Sen. Sheldon Whitehouse [D, 2007-2030]",Democrat
+412251,WY,,Yea,"Sen. John Barrasso [R, 2007-2030]",Republican
+412269,LA,,Yea,"Sen. Bill Cassidy [R, 2015-2026]",Republican
+412281,NM,,Nay,"Sen. Martin Heinrich [D, 2013-2030]",Democrat
+412293,NM,,Nay,"Sen. Ben Ray Luján [D, 2021-2026]",Democrat
+412294,WY,,Yea,"Sen. Cynthia Lummis [R, 2021-2026]",Republican
+412305,MI,,Nay,"Sen. Gary Peters [D, 2015-2026]",Democrat
+412321,VA,,Nay,"Sen. Mark Warner [D, 2009-2026]",Democrat
+412322,ID,,Yea,"Sen. James Risch [R, 2009-2026]",Republican
+412323,NH,,Nay,"Sen. Jeanne Shaheen [D, 2009-2026]",Democrat
+412325,OR,,Nay,"Sen. Jeff Merkley [D, 2009-2026]",Democrat
+412330,CO,,Nay,"Sen. Michael Bennet [D, 2009-2028]",Democrat
+412390,DE,,Nay,"Sen. Christopher Coons [D, 2010-2026]",Democrat
+412428,IN,,Yea,"Sen. Todd Young [R, 2017-2028]",Republican
+412464,OK,,Yea,"Sen. James Lankford [R, 2015-2028]",Republican
+412471,SC,,Yea,"Sen. Tim Scott [R, 2013-2028]",Republican
+412490,CT,,Nay,"Sen. Richard Blumenthal [D, 2011-2028]",Democrat
+412492,KY,,Yea,"Sen. Rand Paul [R, 2011-2028]",Republican
+412494,ND,,Yea,"Sen. John Hoeven [R, 2011-2028]",Republican
+412495,UT,,Yea,"Sen. Mike Lee [R, 2011-2028]",Republican
+412496,WI,,Yea,"Sen. Ron Johnson [R, 2011-2028]",Republican
+412507,HI,,Nay,"Sen. Brian Schatz [D, 2012-2028]",Democrat
+412508,AR,,Yea,"Sen. Tom Cotton [R, 2015-2026]",Republican
+412533,IL,,Nay,"Sen. Tammy Duckworth [D, 2017-2028]",Democrat
+412542,MA,,Nay,"Sen. Elizabeth Warren [D, 2013-2030]",Democrat
+412545,ME,,Nay,"Sen. Angus King [I, 2013-2030]",Democrat
+412549,MT,,Yea,"Sen. Steve Daines [R, 2015-2026]",Republican
+412555,ND,,Yea,"Sen. Kevin Cramer [R, 2019-2030]",Republican
+412556,NE,,Yea,"Sen. Deb Fischer [R, 2013-2030]",Republican
+412568,OK,,Yea,"Sen. Markwayne Mullin [R, 2023-2026]",Republican
+412573,TX,,Yea,"Sen. Ted Cruz [R, 2013-2030]",Republican
+412582,VA,,Nay,"Sen. Timothy “Tim” Kaine [D, 2013-2030]",Democrat
+412598,NJ,,Not Voting,"Sen. Cory Booker [D, 2013-2026]",Democrat
+412612,AZ,,Nay,"Sen. Ruben Gallego [D, 2025-2030]",Democrat
+412665,AK,,Yea,"Sen. Dan Sullivan [R, 2015-2026]",Republican
+412667,IA,,Yea,"Sen. Joni Ernst [R, 2015-2026]",Republican
+412668,NC,,Yea,"Sen. Thom Tillis [R, 2015-2026]",Republican
+412669,SD,,Yea,"Sen. Mike Rounds [R, 2015-2026]",Republican
+412679,LA,,Yea,"Sen. John Neely Kennedy [R, 2017-2028]",Republican
+412680,NH,,Nay,"Sen. Margaret “Maggie” Hassan [D, 2017-2028]",Democrat
+412681,NV,,Nay,"Sen. Catherine Cortez Masto [D, 2017-2028]",Democrat
+412689,DE,,Nay,"Sen. Lisa Blunt Rochester [D, 2025-2030]",Democrat
+412702,IN,,Yea,"Sen. Jim Banks [R, 2025-2030]",Republican
+412704,KS,,Yea,"Sen. Roger Marshall [R, 2021-2026]",Republican
+412712,NC,,Yea,"Sen. Ted Budd [R, 2023-2028]",Republican
+412715,NV,,Nay,"Sen. Jacky Rosen [D, 2019-2030]",Democrat
+412740,UT,,Yea,"Sen. John Curtis [R, 2025-2030]",Republican
+412742,MN,,Nay,"Sen. Tina Smith [D, 2018-2026]",Democrat
+412743,MS,,Yea,"Sen. Cindy Hyde-Smith [R, 2018-2026]",Republican
+412784,MI,,Nay,"Sen. Elissa Slotkin [D, 2025-2030]",Democrat
+412797,NJ,,Nay,"Sen. Andy Kim [D, 2024-2030]",Democrat
+412838,FL,,Yea,"Sen. Rick Scott [R, 2019-2030]",Republican
+412840,MO,,Yea,"Sen. Joshua “Josh” Hawley [R, 2019-2030]",Republican
+456794,AZ,,Nay,"Sen. Mark Kelly [D, 2020-2028]",Democrat
+456796,AL,,Yea,"Sen. Tommy Tuberville [R, 2021-2026]",Republican
+456797,CO,,Nay,"Sen. John Hickenlooper [D, 2021-2026]",Democrat
+456798,TN,,Yea,"Sen. Bill Hagerty [R, 2021-2026]",Republican
+456856,CA,,Nay,"Sen. Alejandro “Alex” Padilla [D, 2021-2028]",Democrat
+456857,GA,,Nay,"Sen. Jon Ossoff [D, 2021-2026]",Democrat
+456858,GA,,Nay,"Sen. Raphael Warnock [D, 2021-2028]",Democrat
+456874,AL,,Not Voting,"Sen. Katie Britt [R, 2023-2028]",Republican
+456875,MO,,Yea,"Sen. Eric Schmitt [R, 2023-2028]",Republican
+456877,PA,,Nay,"Sen. John Fetterman [D, 2023-2028]",Democrat
+456952,NE,,Yea,"Sen. Pete Ricketts [R, 2023-2026]",Republican
+456965,MD,,Nay,"Sen. Angela Alsobrooks [D, 2025-2030]",Democrat
+456966,MT,,Yea,"Sen. Tim Sheehy [R, 2025-2030]",Republican
+456967,OH,,Yea,"Sen. Bernie Moreno [R, 2025-2030]",Republican
+456968,PA,,Yea,"Sen. Dave McCormick [R, 2025-2030]",Republican
+456969,WV,,Yea,"Sen. Jim Justice [R, 2025-2030]",Republican
+457032,OH,,Yea,"Sen. Jon Husted [R, 2025-2028]",Republican
+457033,FL,,Yea,"Sen. Ashley Moody [R, 2025-2028]",Republican

@@ -1,0 +1,56 @@
+---
+title: "Applications of SVD: (insert your application)"
+subtitle: "CLA365 Inc Technical Report"
+author: "Courtney Brown, Tenzin Dayoe, Bethany Wang"
+date: "Submitted 5/4/25"
+output: 
+  pdf_document: default
+---
+
+```{r echo=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+### Abstract{-}
+
+In this report, we will demonstrate the utility of using principle component analysis to evaluate similarities among observations in a dataset. We will use data of votes from the US Senate for our analysis.
+
+# Introduction
+
+[Explain Principle Component Analysis]
+
+# Examples
+
+```{r}
+singleCase <- read.csv("congress_votes_119-2025_s228.csv")
+senator_names <- as.matrix(singleCase)[,5]
+senator_parties <- as.matrix(singleCase)[,6]
+```
+
+```{r}
+votes <- as.matrix(read.csv("combined_votes.csv"))[c(1:91,93:101),2:132]
+# note: I left out the senator lacking data because my source for names doesn't have theirs
+```
+
+```{r}
+out <- svd(votes)
+sc_loadings <- out$v
+sc_sdev <- out$d
+sc_scores <- out$u %*% diag(out$d)
+```
+
+```{r plots}
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties)
+ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) + 
+  geom_point() +
+  labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
+  theme_minimal() +
+  scale_color_manual(values=c("Blue", "Red"))
+```
+
+```{r}
+votes_approx <- 
+```
+
+# Bibliography
