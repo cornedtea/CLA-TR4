@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 title: "Applications of SVD: (insert your application)"
 subtitle: "CLA365 Inc Technical Report"
@@ -108,3 +109,127 @@ combinedDf.to_csv('combined_votes.csv', index=False)
 from google.colab import files
 files.download('combined_votes.csv')
 ```
+=======
+---
+title: "Applications of SVD: (insert your application)"
+subtitle: "CLA365 Inc Technical Report"
+author: "Courtney Brown, Tenzin Dayoe, Bethany Wang"
+date: "Submitted 5/4/25"
+output: 
+  pdf_document: default
+---
+
+```{r echo=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+### Abstract{-}
+
+In this report, we will demonstrate the utility of using principle component analysis to evaluate similarities among observations in a dataset. We will use data of votes from the US Senate for our analysis.
+
+# Introduction
+
+Principle Component Analysis (PCA) is a technique that transforms a dataset with possibly correlated variables into a new set of uncorrelated variables called principal components. The principal components are linear combinations of the original variables and are ordered by the amount of variance they explain. The first principal component explains the greatest variance in the data, the second the next greatest, and so on. PCA seeks to reduce the dimensionality of the data by preserving as much variability as possible in fewer dimensions. PCA begins by centering the data, given a data $n \times p$ matrix $X$, where $n$ is the number of observations and $p$ is the number of features, we subtract the mean of each column to form a centered matrix. Then we compute the sample covariance matrix as $\frac{1}{(n-1)} X^T  X$. Performing an eigen-decomposition of this covariance matrix yields a set of eigenvectors and eigenvalues. The eigenvectors (principal components) indicate the new basis, and the eigenvalues represent the amount of variance along each component. The data can be projected onto the first $k$ principal components to obtain a reduced representation.
+
+Singular Value Decomposition (SVD) is a general matrix factorization method that decomposes real-valued matrix $X$ into the product of three matrices: $X = U \Sigma V^T$. Here, $U$ contains the left singular vectors, $\Sigma$ is a diagonal matrix of singular values, and $V$ contains the right singular vectors. When SVD is applied to centered data, the right singular vectors are equivalent to the principal directions in PCA. Moreover, the squared singular values divided by $n-1$ correspond to the eigenvalues of the covariance matrix. This connection implies that PCA can be performed using SVD without computing the covariance matrix directly. SVD provides a more computationally efficient way to perform PCA, especially on large datasets.
+
+# Case Study
+
+The matrix used for this SVD analysis is constructed from Senate voting data containing senator votes for many bills, where each row represents a senator and each column corresponds to a specific bill vote (for example $vote_1$, $vote_2$, ...) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
+
+Converting this dataset into a matrix gives us a large rectangular matrix. Applying SVD to the votes matrix - excluding the senator id column-  factorizes it as $X = UDV^\top $.
+
+In the context of PCA, the columns of $UD$ give us the principal component scores, and are also ordered by importance. By taking the first two columns, we can project each senator into a $2D$ space that captures the most significant variation in voting behavior.
+
+```{r}
+singleCase <- read.csv("congress_votes_119-2025_s228.csv")
+senator_names <- as.matrix(singleCase)[,5]
+senator_parties <- as.matrix(singleCase)[,6]
+```
+
+```{r}
+votes <- as.matrix(read.csv("combined_votes.csv"))[,2:132]
+```
+
+```{r}
+out <- svd(votes)
+sc_loadings <- out$v
+sc_sdev <- out$d
+sc_scores <- out$u %*% diag(out$d)
+```
+
+```{r}
+votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+tendencies <- rowSums(votes_approx)
+senator_tendencies <- tendencies
+for (i in 1:length(tendencies)) {
+  if (tendencies[i] < 0) {
+    senator_tendencies[i] <- "Negative"
+  } else {
+    senator_tendencies[i] <- "Positive"
+  }
+}
+```
+
+```{r plots}
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
+ggplot(data=votesFrame, aes(x=x, y=y, col=party, group=tendency)) + 
+  geom_point(aes(shape=tendency)) +
+  labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
+  theme_minimal() +
+  scale_color_manual(values=c("Blue", "Red"))
+```
+
+# Bibliography
+
+# R Code Appendix
+
+## Scraper Code
+
+This is the code written by Tenzin to form a single CSV file of the Senate votes, run from Google Colab.
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+
+def getURL(sNumber):
+    return f"https://www.govtrack.us/congress/votes/119-2025/s{sNumber}/export/csv"
+
+urls = [getURL(i) for i in range(100, 231)]
+
+combinedDf = None
+for i, url in enumerate(urls):
+    df = pd.read_csv(url, skiprows=1)
+
+    df = df[['person', 'vote']]
+
+
+    vote_col = f'vote_{i}'
+    df[vote_col] = df['vote'].map({
+        'Yea': 1,
+        'Nay': -1,
+        'Not Voting': 0,
+        'NA': 0,
+        '': 0
+    }).fillna(0)
+
+    df = df[['person', vote_col]]
+
+    if combinedDf is None:
+        combinedDf = df
+    else:
+        combinedDf = pd.merge(combinedDf, df, on='person', how='outer')
+
+print(combinedDf)
+
+combinedDf = combinedDf.fillna(0)
+combinedDf.to_csv('combined_votes.csv', index=False)
+
+from google.colab import files
+files.download('combined_votes.csv')
+```
+>>>>>>> 97ee49dbe23b9d495c67dc0c5762f14ef014124f
