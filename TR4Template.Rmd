@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ---
 title: "Applications of SVD: (insert your application)"
 subtitle: "CLA365 Inc Technical Report"
@@ -49,14 +48,28 @@ sc_sdev <- out$d
 sc_scores <- out$u %*% diag(out$d)
 ```
 
+```{r}
+votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+tendencies <- rowSums(votes_approx)
+senator_tendencies <- tendencies
+for (i in 1:length(tendencies)) {
+  if (tendencies[i] < 0) {
+    senator_tendencies[i] <- "Negative"
+  } else {
+    senator_tendencies[i] <- "Positive"
+  }
+}
+```
+
 ```{r plots}
-votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties)
-ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) + 
-  geom_point() +
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
+ggplot(data=votesFrame, aes(x=x, y=y, col=party, group=tendency)) + 
+  geom_point(aes(shape=tendency)) +
   labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
   theme_minimal() +
   scale_color_manual(values=c("Blue", "Red"))
 ```
+
 # Conclusion 
 
 Through our analysis using Singular Value Decomposition, we extracted and analyzed meaningful patterns from the high dimensional Senate voting data matrix. The 2D projection using the first two principal components revealed a clear separation between the two major political parties along the first component, which captures the most significant variation in voting behavior - which we think is likely tied to partisan alignment, ideological differences, and voting tendencies. 
@@ -65,8 +78,6 @@ The second principal component, which is less dominant, appeared to reflect more
 
 Overall this analysis demonstrates how SVD and linear algebra can uncover structure and trends in complex, high dimensional datasets.
 
-
-
 # Bibliography
 
 # R Code Appendix
@@ -74,6 +85,7 @@ Overall this analysis demonstrates how SVD and linear algebra can uncover struct
 ## Scraper Code
 
 This is the code written by Tenzin to form a single CSV file of the Senate votes, run from Google Colab.
+
 ```
 import pandas as pd
 import numpy as np
