@@ -22,6 +22,15 @@ Principle Component Analysis (PCA) is a technique that transforms a dataset with
 
 # Examples
 
+
+The matrix used for this SVD analysis is constructed from Senate voting data containing senator votes for many bills, where each row represents a senator and each column corresponds to a specific bill vote ( for example $vote_1$, $vote_2$ ..) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
+
+Converting this dataset into a matrix gives us a large rectangular matrix. Applying SVD to the votes matrix - excluding the senator id column-  factorizes it as $X = UDV^\top $.
+
+In the context of PCA, the columns of $UD$ give us the principal component scores, and are also ordered by importance. By taking the first two columns, we can project each senator into a $2D$ space that captures the most significant variation in voting behavior.
+
+
+
 ```{r}
 singleCase <- read.csv("congress_votes_119-2025_s228.csv")
 senator_names <- as.matrix(singleCase)[,5]
