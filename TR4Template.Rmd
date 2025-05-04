@@ -48,14 +48,6 @@ ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) +
   scale_color_manual(values=c("Blue", "Red"))
 ```
 
-```{r}
-votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
-outcomes <- colSums(votes_approx)
-for (i in 1:length(outcomes)) {
-  if (outcomes[i] < 0)
-}
-```
-
 # Bibliography
 
 # R Code Appendix
