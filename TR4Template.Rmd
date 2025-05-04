@@ -57,6 +57,15 @@ ggplot(data=votesFrame, aes(x=x, y=y, col=party, label=name)) +
   theme_minimal() +
   scale_color_manual(values=c("Blue", "Red"))
 ```
+# Conclusion 
+
+Through our analysis using Singular Value Decomposition, we extracted and analyzed meaningful patterns from the high dimensional Senate voting data matrix. The 2D projection using the first two principal components revealed a clear separation between the two major political parties along the first component, which captures the most significant variation in voting behavior - which we think is likely tied to partisan alignment, ideological differences, and voting tendencies. 
+
+The second principal component, which is less dominant, appeared to reflect more subtle distinctions. While we couldn't identify the exact bills driving this variation, we observed differences within the same party.
+
+Overall this analysis demonstrates how SVD and linear algebra can uncover structure and trends in complex, high dimensional datasets.
+
+
 
 # Bibliography
 
