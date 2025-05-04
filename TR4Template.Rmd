@@ -20,16 +20,15 @@ In this report, we will demonstrate the utility of using principle component ana
 
 Principle Component Analysis (PCA) is a technique that transforms a dataset with possibly correlated variables into a new set of uncorrelated variables called principal components. The principal components are linear combinations of the original variables and are ordered by the amount of variance they explain. The first principal component explains the greatest variance in the data, the second the next greatest, and so on. PCA seeks to reduce the dimensionality of the data by preserving as much variability as possible in fewer dimensions. PCA begins by centering the data, given a data $n \times p$ matrix $X$, where $n$ is the number of observations and $p$ is the number of features, we subtract the mean of each column to form a centered matrix. Then we compute the sample covariance matrix as $\frac{1}{(n-1)} X^T  X$. Performing an eigen-decomposition of this covariance matrix yields a set of eigenvectors and eigenvalues. The eigenvectors (principal components) indicate the new basis, and the eigenvalues represent the amount of variance along each component. The data can be projected onto the first $k$ principal components to obtain a reduced representation.
 
-# Examples
+Singular Value Decomposition (SVD) is a general matrix factorization method that decomposes real-valued matrix $X$ into the product of three matrices: $X = U \Sigma V^T$. Here, $U$ contains the left singular vectors, $\Sigma$ is a diagonal matrix of singular values, and $V$ contains the right singular vectors. When SVD is applied to centered data, the right singular vectors are equivalent to the principal directions in PCA. Moreover, the squared singular values divided by $n-1$ correspond to the eigenvalues of the covariance matrix. This connection implies that PCA can be performed using SVD without computing the covariance matrix directly. SVD provides a more computationally efficient way to perform PCA, especially on large datasets.
 
+# Case Study
 
-The matrix used for this SVD analysis is constructed from Senate voting data containing senator votes for many bills, where each row represents a senator and each column corresponds to a specific bill vote ( for example $vote_1$, $vote_2$ ..) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
+The matrix used for this SVD analysis is constructed from Senate voting data containing senator votes for many bills, where each row represents a senator and each column corresponds to a specific bill vote (for example $vote_1$, $vote_2$, ...) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
 
 Converting this dataset into a matrix gives us a large rectangular matrix. Applying SVD to the votes matrix - excluding the senator id column-  factorizes it as $X = UDV^\top $.
 
 In the context of PCA, the columns of $UD$ give us the principal component scores, and are also ordered by importance. By taking the first two columns, we can project each senator into a $2D$ space that captures the most significant variation in voting behavior.
-
-
 
 ```{r}
 singleCase <- read.csv("congress_votes_119-2025_s228.csv")
