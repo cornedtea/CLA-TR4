@@ -1,5 +1,5 @@
 ---
-title: "Applications of SVD: (insert your application)"
+title: "Applications of SVD: Principal Component Analysis"
 subtitle: "CLA365 Inc Technical Report"
 author: "Courtney Brown, Tenzin Dayoe, Bethany Wang"
 date: "Submitted 5/4/25"
@@ -14,42 +14,37 @@ library(ggplot2)
 
 ### Abstract{-}
 
-In this report, we will demonstrate the utility of using principle component analysis to evaluate similarities among observations in a dataset. We will use data of votes from the US Senate for our analysis.
+In this report, we will demonstrate the utility of using SVD for principal component analysis to evaluate similarities among observations in a dataset. We will use data of votes from the US Senate for our analysis.
 
 # Introduction
 
-Principle Component Analysis (PCA) is a technique that transforms a dataset with possibly correlated variables into a new set of uncorrelated variables called principal components. The principal components are linear combinations of the original variables and are ordered by the amount of variance they explain. The first principal component explains the greatest variance in the data, the second the next greatest, and so on. PCA seeks to reduce the dimensionality of the data by preserving as much variability as possible in fewer dimensions. PCA begins by centering the data, given a data $n \times p$ matrix $X$, where $n$ is the number of observations and $p$ is the number of features, we subtract the mean of each column to form a centered matrix. Then we compute the sample covariance matrix as $\frac{1}{(n-1)} X^T  X$. Performing an eigen-decomposition of this covariance matrix yields a set of eigenvectors and eigenvalues. The eigenvectors (principal components) indicate the new basis, and the eigenvalues represent the amount of variance along each component. The data can be projected onto the first $k$ principal components to obtain a reduced representation.
+Principal Component Analysis (PCA) is a technique that takes a dataset with possibly correlated features and extracts new set of uncorrelated features called principal components. The principal components are linear combinations of the original feature vectors and are ordered by the amount of variance they explain. The first principal component explains the greatest variance in the data, the second the next greatest, and so on. PCA seeks to preserve as much variability as possible in fewer dimensions. Given an $n \times p$ data matrix $X$, where $n$ is the number of observations and $p$ is the number of features, we subtract the mean of each column to form a centered matrix for our analysis. Then we compute the correlation matrix as $\frac{1}{(n-1)} X^\top X$. The diagonalization of the correlation matrix is $V \Lambda V^\top$, where $V^\top$ is the loadings matrix representing how much of each original feature is present in the principal components, and $XV$ is the matrix of scores which stores the principal components. The data can be projected onto the first $k$ principal components to obtain a reduced representation.
 
-Singular Value Decomposition (SVD) is a general matrix factorization method that decomposes real-valued matrix $X$ into the product of three matrices: $X = U \Sigma V^T$. Here, $U$ contains the left singular vectors, indicating directions in the output (row) space. $\Sigma$ is a diagonal matrix of singular values, and $V$ contains the right singular vectors, indicating directions in the input (column) space. When SVD is applied to centered data, the right singular vectors are equivalent to the principal directions in PCA. Moreover, the squared singular values divided by $n-1$ correspond to the eigenvalues of the covariance matrix. This connection implies that PCA can be performed using SVD without computing the covariance matrix directly. SVD provides a more computationally efficient way to perform PCA, especially on large datasets.
+Singular Value Decomposition (SVD) is a general matrix factorization method that decomposes real-valued matrix $X$ into the product of three matrices: $X = U \Sigma V^\top$. Here, $U$ contains the left singular vectors, which represent the output space. $\Sigma$ is a diagonal matrix of singular values, and $V$ contains the right singular vectors, which represent the input space. When SVD is applied to centered data, the vectors in $V^\top$ are equivalent to the principal components obtained through PCA. Moreover, the squared singular values from $\Sigma$ divided by $n-1$ correspond to the eigenvalues of the correlation matrix from $\Lambda$. This connection implies that SVD can be used to perform PCA without computing the correlation matrix directly. SVD provides a more computationally efficient way to perform PCA, especially for large datasets.
 
+# Case Study: Senate Votes
 
-# Case Study
+The matrix used for this SVD analysis is constructed from US Senate voting data containing senator votes for 131 bills from the 2025 session of the 119th Congress, where each row represents a senator and each column corresponds to a specific bill vote (for example $vote_1$, $vote_2$, ...) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
 
-The matrix used for this SVD analysis is constructed from Senate voting data containing senator votes for many bills, where each row represents a senator and each column corresponds to a specific bill vote (for example $vote_1$, $vote_2$, ...) . The entries are encoded numerically where $1$ is for “yea”, $0$ is for no vote, $-1$ is for “nay”. 
-
-Converting this dataset into a matrix gives us a large rectangular matrix. Applying SVD to the votes matrix - excluding the senator id column-  factorizes it as $X = UDV^\top $.
-
-In the context of PCA, the columns of $UD$ give us the principal component scores, and are also ordered by importance. By taking the first two columns, we can project each senator into a $2D$ space that captures the most significant variation in voting behavior.
-
-```{r}
-singleCase <- read.csv("congress_votes_119-2025_s228.csv")
-senator_names <- as.matrix(singleCase)[,5]
-senator_parties <- as.matrix(singleCase)[,6]
-```
-
-```{r}
+```{r echo=FALSE}
 votes <- as.matrix(read.csv("combined_votes.csv"))[,2:132]
 ```
 
-```{r}
+Converting this dataset into a matrix gives us a large rectangular $100 \times 131$ matrix. Applying SVD to the votes matrix factorizes it as $X = U \Sigma V^\top$.
+
+```{r echo=FALSE}
 out <- svd(votes)
-sc_loadings <- out$v
+sc_loadings <- t(out$v)
 sc_sdev <- out$d
 sc_scores <- out$u %*% diag(out$d)
 ```
 
-```{r}
-votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+In the context of PCA, $U \Sigma$ give us the scores matrix, the columns of which are the principal components ordered by importance, and $V^\top$ gives us the loadings matrix.
+
+Using just the first 2 principal components and their associated loadings, we can construct a rank 2 approximation of the original voting matrix. Using this approximation, we can take the sum of each row to determine the senators' voting tendencies. If the sum of their votes is negative, then we say they have a "tendency" to vote negative, and if the sum of their votes is positive then we say they have a "tendency" to vote positive.
+
+```{r echo=FALSE}
+votes_approx <- sc_scores[,1:2]%*%sc_loadings[1:2,]
 tendencies <- rowSums(votes_approx)
 senator_tendencies <- tendencies
 for (i in 1:length(tendencies)) {
@@ -61,8 +56,25 @@ for (i in 1:length(tendencies)) {
 }
 ```
 
-```{r plots}
+By taking the first principal components, we can project each senator into a 2D space that captures the most significant variation in voting behavior. We used Senate Vote #228 to obtain the senators' names and party affiliations, though names are not included in the below plot in order to preserve legibility.
+
+```{r echo=FALSE}
+singleCase <- read.csv("congress_votes_119-2025_s228.csv")
+senator_names <- as.matrix(singleCase)[,5]
+senator_parties <- as.matrix(singleCase)[,6]
+```
+
+```{r echo=FALSE}
 votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
+ggplot(data=votesFrame, aes(x=x, y=y)) + 
+  geom_point() +
+  labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
+  theme_minimal()
+```
+
+This plot shows a clear divide between two groups of senators. Having obtained the senators' party affiliations and voting tendencies, we then modified the plot to investigate which, if either, of these facets was identified by the PCA.
+
+```{r echo=FALSE}
 ggplot(data=votesFrame, aes(x=x, y=y, col=party, group=tendency)) + 
   geom_point(aes(shape=tendency)) +
   labs(title = "Senate Vote Map", x = "Component 1", y = "Component 2") + 
@@ -70,21 +82,23 @@ ggplot(data=votesFrame, aes(x=x, y=y, col=party, group=tendency)) +
   scale_color_manual(values=c("Blue", "Red"))
 ```
 
+This plot shows that the first principal component carries information about the party affiliation and voting tendency of the senators.
+
 # Conclusion 
 
-Through our analysis using Singular Value Decomposition, we extracted and analyzed meaningful patterns from the high dimensional Senate voting data matrix. The 2D projection using the first two principal components revealed a clear separation between the two major political parties along the first component, which captures the most significant variation in voting behavior - which we think is likely tied to partisan alignment, ideological differences, and voting tendencies. 
+Using the example of US Senate voting data, we showed that Principal Component Analysis performed with SVD can extract meaningful patterns from high dimensional data. The 2D projection using the first two principal components revealed a clear separation among senators. 
 
-The second principal component, which is less dominant, appeared to reflect more subtle distinctions. While we couldn't identify the exact bills driving this variation, we observed differences within the same party.
+The first component captures the most significant variation in voting behavior -- evidently partisan alignment and voting tendencies, which both correspond with ideological differences between the groups.
 
-Overall this analysis demonstrates how SVD and linear algebra can uncover structure and trends in complex, high dimensional datasets.
+The second principal component, which is less dominant, appeared to reflect more subtle distinctions. While we couldn't identify what, exactly, this component captured, we observed that the Democratic senators have much more variation along this axis than the Republican senators.
 
-# Bibliography
+Further use of this method with this data could include obtaining voting data from previous Senate sessions and performing the same analysis. Comparisons of the different PCAs could reveal shifts in which factors influence voting behavior in the US Senate.
 
 # R Code Appendix
 
 ## Scraper Code
 
-This is the code written by Tenzin to form a single CSV file of the Senate votes, run from Google Colab.
+This is the code written by Tenzin to form a single CSV file of the Senate votes from [GovTrack's congressional votes database](https://www.govtrack.us/congress/votes), run from Google Colab.
 
 ```
 import pandas as pd
@@ -129,4 +143,51 @@ combinedDf.to_csv('combined_votes.csv', index=False)
 
 from google.colab import files
 files.download('combined_votes.csv')
+```
+
+# Analysis Code
+
+## Votes matrix
+
+```
+# Excludes the first column of Senator IDs
+votes <- as.matrix(read.csv("combined_votes.csv"))[,2:132]
+```
+
+## SVD for PCA
+
+```
+out <- svd(votes)
+sc_loadings <- out$v
+sc_sdev <- out$d
+sc_scores <- out$u %*% diag(out$d)
+```
+
+## Names and Parties
+
+```
+singleCase <- read.csv("congress_votes_119-2025_s228.csv")
+senator_names <- as.matrix(singleCase)[,5]
+senator_parties <- as.matrix(singleCase)[,6]
+```
+
+## Tendencies
+
+```
+votes_approx <- sc_scores[,1:2]%*%t(sc_loadings[,1:2])
+tendencies <- rowSums(votes_approx)
+senator_tendencies <- tendencies
+for (i in 1:length(tendencies)) {
+  if (tendencies[i] < 0) {
+    senator_tendencies[i] <- "Negative"
+  } else {
+    senator_tendencies[i] <- "Positive"
+  }
+}
+```
+
+## Dataframe for Plot
+
+```
+votesFrame <- data.frame(x = sc_scores[,1], y = sc_scores[,2], name = senator_names, party = senator_parties, tendency = senator_tendencies)
 ```
